@@ -1,0 +1,301 @@
+
+
+
+/**
+ * base.css = Base Styles
+ *
+ * @summary
+ * The TechGeek family's base styles: the reset, the base element styles
+ * every site starts from (the page body, headings, paragraphs, links, media,
+ * buttons, lists, and the scrollbar), the focus ring every link and button
+ * grows in on keyboard focus, and the keyframes several modules play through
+ * global(). A site imports it after fonts.css and tokens.css, and keeps its
+ * own keyframes and element styles in its own stylesheet and modules.
+ *
+ * Sections:
+ *  - Base Elements
+ *  - Shared Keyframes
+ *
+ * @author z4nta0 <https://github.com/z4nta0>
+ *
+*/
+
+
+
+/* #region Base Elements */
+
+*,
+*::before,
+*::after { /* What: Universal Reset. Why: Every element should size predictably and start without the browser's default spacing. How: This sets border-box sizing and clears margin and padding. */
+
+
+	box-sizing : border-box;
+	margin     : 0;
+	padding    : 0;
+
+
+}
+
+html { /* What: Root Element. Why: The page should scroll smoothly to its anchors and draw text crisply. How: This sets the root size to the 11px base, smooths scrolling, and turns on grayscale antialiasing. */
+
+
+	-moz-osx-font-smoothing : grayscale;
+	-webkit-font-smoothing  : antialiased;
+	font-size               : 68.75%; /* What: Root Font Size. Why: 1rem has to be the 11px base, scaled with the visitor's own setting. How: 11 divided by the default 16 is 68.75%. */
+	scroll-behavior         : smooth;
+
+
+}
+@media ( prefers-reduced-motion : reduce ) { /* What: Reduced Motion Root Element. Why: Someone who asked for less motion shouldn't see the page glide to an anchor. How: This applies only when the reduced-motion preference is set. */
+
+
+	html { /* What: Instant Scroll Root Element. Why: Jumps to an anchor should be instant. How: This turns smooth scrolling off. */
+
+
+		scroll-behavior : auto;
+
+
+	}
+
+
+}
+
+body { /* What: Page Body. Why: Every page sits on the page color in the main face and color. How: This sets the background, text color, font, size, and line height, fills the screen, and hides sideways overflow. */
+
+
+	background-color : var( --bac-pag-col ); /* Background Page Color = #F5F0E8 */
+	color            : var( --tex-mai-col ); /* Text Main Color = #1A1A2E */
+	font-family      : var( --fon-fam-mai ); /* Font Family Main = 'Syne', sans-serif */
+	font-size        : var( --fon-siz-p01 ); /* Font Size Base Plus 1 ~= 14.572px */
+	height           : 100%;
+	line-height      : var( --ver-rhy-p01 ); /* Vertical Rhythm Base Plus 1 ~= 1.755 */
+	margin           : 0;
+	min-height       : 100vh;
+	overflow-x       : hidden;
+	width            : 100%;
+
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 { /* What: Headings. Why: Every heading shares the bold, tight display style. How: This sets the display font at weight 700 with lines as tall as the text itself, since a heading rarely wraps and reads better set tight when it does, and slightly tightened letters. */
+
+
+	font-family    : var( --fon-fam-mai );                    /* Font Family Main = 'Syne', sans-serif */
+	font-weight    : 700;
+	letter-spacing : calc( var( --cdn-pow-014-rec ) * -1em ); /* Core-Design-Number to the Power of 14 Reciprocal ~= -0.020em */
+	line-height    : var( --ver-rhy-m01 );                    /* Vertical Rhythm Base Minus 1 = 1 */
+
+
+}
+
+h1 { /* What: Heading Level 1. Why: The page heading is the largest and boldest. How: This scales it with the screen between about 45px and 79px at weight 800, letting the floor follow the screen below about 450px so a long word still fits a phone. */
+
+
+	font-size   : clamp( min( 10vw, var( --fon-siz-p05 ) ), 6vw, var( --fon-siz-p07 ) ); /* Font Size Base Plus 5 ~= 44.876px, Font Size Base Plus 7 ~= 78.751px */ /* What: Phone Floor. Why: At the p05 floor, a long heading word ran past a small phone. How: The floor is the smaller of p05 and 10vw, which only bites below about 450px, 32px at 320px. */
+	font-weight : 800;
+
+
+}
+
+h2 { /* What: Heading Level 2. Why: Section headings sit a step down. How: This scales them with the screen between about 25.6px and 44.9px. */
+
+
+	font-size : clamp( var( --fon-siz-p03 ), 4vw, var( --fon-siz-p05 ) ); /* Font Size Base Plus 3 ~= 25.572px, Font Size Base Plus 5 ~= 44.876px */
+
+
+}
+
+h3 { /* What: Heading Level 3. Why: Card headings sit another step down. How: This scales them with the screen between about 19.3px and 25.6px. */
+
+
+	font-size : clamp( var( --fon-siz-p02 ), 2.5vw, var( --fon-siz-p03 ) ); /* Font Size Base Plus 2 ~= 19.304px, Font Size Base Plus 3 ~= 25.572px */
+
+
+}
+
+h4 { /* What: Heading Level 4. Why: The smallest heading stays a fixed size. How: This sets it at the base plus 2 size, about 19.3px. */
+
+
+	font-size : var( --fon-siz-p02 ); /* Font Size Base Plus 2 ~= 19.304px */
+
+
+}
+
+p { /* What: Paragraph. Why: Body text reads comfortably in the secondary text color. How: This sets the display font at the base plus 1 size, about 14.6px, with roomy lines. */
+
+
+	color       : var( --tex-sec-col ); /* Text Secondary Color = #3D3D5C */
+	font-family : var( --fon-fam-mai ); /* Font Family Main = 'Syne', sans-serif */
+	font-size   : var( --fon-siz-p01 ); /* Font Size Base Plus 1 ~= 14.572px */
+	font-weight : 400;
+	line-height : var( --ver-rhy-p01 ); /* Vertical Rhythm Base Plus 1 ~= 1.755 */
+
+
+}
+
+a { /* What: Anchor. Why: Links take their surroundings' look unless a module styles them. How: This inherits the color and drops the underline. */
+
+
+	color           : inherit;
+	text-decoration : none;
+
+
+}
+
+img,
+video { /* What: Media. Why: Images and video never overflow their box or leave a gap below. How: This caps their width and makes them blocks. */
+
+
+	display   : block;
+	max-width : 100%;
+
+
+}
+
+button { /* What: Button. Why: Buttons start from a blank slate that modules style. How: This clears the border and background and sets the pointer and the display font. */
+
+
+	background  : none;
+	border      : none;
+	cursor      : pointer;
+	font-family : var( --fon-fam-mai ); /* Font Family Main = 'Syne', sans-serif */
+
+
+}
+
+a,
+button { /* What: Focus Ring Controls. Why: Keyboard focus should ease in rather than snap. How: This gives every link and button a zero-width outline in the focus ring color, held a little farther off, which the focused rule below grows to full width and draws in close; every control with its own transition lists the two outline properties so the ease survives. */
+
+
+	outline        : 0 solid var( --foc-rin-col );                                                                                      /* Focus Ring Color ~= #bd3000 */ /* What: Zero Width Outline. Why: A zero width stays invisible, even in forced colors mode, until something is focused. How: The focus visible rule grows it. */
+	outline-offset : calc( var( --ver-rhy-m03 ) * 1rem );                                                                               /* Vertical Rhythm Base Minus 3 ~= 6.268px */
+	transition     : outline-offset var( --dur-tra-p01 ) var( --mot-dec-eas ), outline-width var( --dur-tra-p01 ) var( --mot-dec-eas ); /* Duration Transition Base Plus 1 ~= 209.1ms, Motion Decelerate Easing = cubic-bezier( .2, .7, .3, 1 ) */
+
+
+}
+@media ( prefers-reduced-motion : reduce ) { /* What: Reduced Motion Focus Ring Controls. Why: Someone who asked for less motion should see the ring appear at once. How: This applies only when the reduced-motion preference is set. */
+
+
+	a,
+	button { /* What: Motionless Focus Ring Controls. Why: The ring should simply appear. How: This turns the transition off. */
+
+
+		transition : none;
+
+
+	}
+
+
+}
+
+ol,
+ul { /* What: Lists. Why: Lists are only used for layout, never bullets. How: This removes the markers. */
+
+
+	list-style : none;
+
+
+}
+
+::-webkit-scrollbar { /* What: Scrollbar. Why: A slim scrollbar suits the family in Chromium and WebKit. How: This narrows it to 6px. */
+
+
+	width : calc( var( --ver-rhy-m03 ) * 1rem ); /* Vertical Rhythm Base Minus 3 ~= 6.268px */
+
+
+}
+
+::-webkit-scrollbar-track { /* What: Scrollbar Track. Why: The track blends into the page. How: This paints it the page color. */
+
+
+	background : var( --bac-pag-col ); /* Background Page Color = #F5F0E8 */
+
+
+}
+
+::-webkit-scrollbar-thumb { /* What: Scrollbar Thumb. Why: The thumb carries the brand blue. How: This paints it the brand blue with rounded ends. */
+
+
+	background    : var( --acc-sec-col ); /* Accent Secondary Color = #7DB9D8 */
+	border-radius : var( --rad-bor-xsm ); /* Radius Border Extra Small ~= 3.572px */
+
+
+}
+::-webkit-scrollbar-thumb:hover { /* What: Hovered Scrollbar Thumb. Why: The thumb responds to the pointer. How: This darkens it. */
+
+
+	background : var( --acs-str-col ); /* Accent-Secondary Strong Color = #4A91B8 */
+
+
+}
+
+:focus-visible { /* What: Focus Visible. Why: A keyboard user has to see where focus is. How: This draws a 2px ring in the focus ring color, held 3px off the element, which links and buttons grow into from the zero-width ring above. */
+
+
+	outline        : var( --bor-wid-lar ) solid var( --foc-rin-col ); /* Border Width Large ~= 2.035px, Focus Ring Color ~= #bd3000 */
+	outline-offset : var( --bor-wid-xla );                            /* Border Width Extra Large ~= 3.572px */
+
+
+}
+
+/* #endregion Base Elements */
+
+
+
+/* #region Shared Keyframes */
+
+@keyframes contentEnterFadeUp { /* What: Content Enter Fade Up. Why: Pages, heroes, and status messages fade up into view as they arrive. How: This moves from transparent and about 26px low to fully shown in place. */
+
+
+	from {
+
+
+		opacity   : 0;
+		transform : translateY( var( --spa-ver-p02 ) ); /* Spacing Vertical Base Plus 2 ~= 25.572px */
+
+
+	}
+
+	to {
+
+
+		opacity   : 1;
+		transform : translateY( 0 );
+
+
+	}
+
+
+}
+
+@keyframes statusLoopPulse { /* What: Status Loop Pulse. Why: Status dots, such as an availability marker, breathe gently. How: This fades the dot to about 43% halfway through and back. */
+
+
+	0%,
+	100% {
+
+
+		opacity : 1;
+
+
+	}
+
+	50% {
+
+
+		opacity : var( --cdn-pow-003-rec ); /* Core-Design-Number to the Power of 3 Reciprocal ~= 0.430 */
+
+
+	}
+
+
+}
+
+/* #endregion Shared Keyframes */
+
+

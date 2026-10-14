@@ -1,0 +1,33 @@
+{
+	"name": "techgeek-design",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./src/*"
+	},
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"lint": "eslint .",
+		"typecheck": "tsc -b"
+	},
+	"peerDependencies": {
+		"react": "^19.3.0",
+		"react-router": "^8.4.0"
+	},
+	"devDependencies": {
+		"@types/node": "^24.19.2",
+		"@types/react": "^19.3.0",
+		"eslint": "^9.39.5",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^7.1.1",
+		"jiti": "^2.7.0",
+		"react": "^19.3.0",
+		"react-router": "^8.4.0",
+		"typescript": "~6.0.3",
+		"typescript-eslint": "^8.71.2",
+		"vite": "^8.3.4"
+	}
+}

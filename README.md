@@ -31,6 +31,37 @@ A site overrides the defaults it needs in its own stylesheet, loaded after
 the package's: the layout values always, and the color and font roles where
 it differs. The scales are never overridden.
 
+The bar and footer take the site's own details as props:
+
+```tsx
+import { NavBarCom } from 'techgeek-design/ui/nav.tsx';
+import { SitFooCom } from 'techgeek-design/ui/footer.tsx';
+
+<NavBarCom
+	avaLabStr='Available for freelance work'
+	ctaLinObj={ { labStr : 'Hire Me', patStr : '/contact' } }
+	emaAdrStr='contact@techgeek.dev'
+	pagLinArr={ PAG_LIN_ARR }
+	tagLinStr='Building the web, one commit at a time.'
+	worEndStr='.dev'
+/>
+
+<SitFooCom
+	pagLinArr={ PAG_LIN_ARR }
+	sisLinArr={ SIS_LIN_ARR }
+	tagLinStr='Building the web, one commit at a time.'
+	worEndStr='.dev'
+/>
+```
+
+The bar sits at layer 4 and its scrim at 3, so a site keeps its own layers
+at 2 or below. The shared hooks are `techgeek-design/ui/scroll-top.ts`
+(every link opens its page at the top) and
+`techgeek-design/ui/page-description.ts` (a route's own search
+description). A site draws its favicon set from
+`src/assets/brand/favicon.svg` with its own script, as TechGeek.dev's
+`design/icons/render.mts` does.
+
 ## Working on it
 
 ```

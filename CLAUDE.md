@@ -26,8 +26,15 @@ dependency (`github:z4nta0/techgeek-design#<tag>`), holding:
 - **The bar and footer** (`src/ui/`), taking props for what differs between
   sites: the wordmark ending, page links, tagline, menu extras, and
   sister-site links.
-- **The brand artwork**: the hexagon mark and favicon, and the script that
-  draws a site's favicon set from them.
+- **The brand artwork** (`src/assets/brand/favicon.svg`): the hexagon mark
+  every site's favicon set is drawn from. The script that draws the set stays
+  in each site (`design/icons/render.mts`), reading the artwork from the
+  installed package and writing the icons into the site's own `public/`,
+  since Node won't strip TypeScript types from a file inside `node_modules`.
+- **The shared hooks** (`src/ui/scroll-top.ts`, `src/ui/page-description.ts`)
+  and z4nta0's profile links (`src/ui/profile-links.ts`), which the bar and
+  footer read, plus the link types a site's props follow
+  (`src/ui/link-types.ts`).
 
 Each site keeps its own theme (TechGeek.dev's geometric motif stays there),
 its own pages, and its own layout widths and caps, on the same scales.

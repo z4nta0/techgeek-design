@@ -49,7 +49,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Navigation Scrim Div. Why: Only the phone menu dims the page. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Navigation Scrim Div. Why: Only the phone menu dims the page. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.navScrDiv { /* What: Shown Navigation Scrim Div. Why: The scrim exists only where the menu does. How: This lets it render, still hidden until the menu opens. */
@@ -138,7 +138,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Navigation Inner Div. Why: On a phone only the brand and the menu toggle share the row. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Navigation Inner Div. Why: On a phone or tablet only the brand and the menu toggle share the row. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.navInnDiv { /* What: Snug Navigation Inner Div. Why: The narrowest phones need every pixel between the brand and the toggle. How: This narrows the gap, the toggle's own margin keeping it at the far edge. */
@@ -201,11 +201,11 @@
 
 /* #region braWorSpa */
 
-.braWorSpa { /* What: Brand Wordmark Span. Why: The site's name reads beside its mark. How: This sets it bold in the display font, a little tight, easing smaller on the narrowest phones. */
+.braWorSpa { /* What: Brand Wordmark Span. Why: The site's name reads beside its mark. How: This sets it bold in the display font, a little tight, at the site's wordmark size, which eases smaller on the narrowest phones. */
 
 
-	font-family    : var( --fon-fam-mai );                                       /* Font Family Main = 'Syne', sans-serif */
-	font-size      : clamp( var( --fon-siz-p01 ), 5.3vw, var( --fon-siz-p02 ) ); /* Font Size Base Plus 1 ~= 14.572px, Font Size Base Plus 2 ~= 19.304px */ /* What: Narrow Phone Wordmark. Why: At 320px the mark, the wordmark, and the menu toggle ran 21px past the screen. How: The wordmark follows the screen below about 364px, about 17px at 320px. */
+	font-family    : var( --fon-fam-mai ); /* Font Family Main = 'Syne', sans-serif */
+	font-size      : var( --bra-wor-siz ); /* Brand Wordmark Size, about 14.572px - 19.304px by default */ /* What: Site Wordmark Size. Why: The wordmark has to fit beside the mark and the menu toggle on a 320px screen, and how soon it eases down depends on the site's domain ending. How: This reads the layout token each site may set, so a site with a longer ending shrinks it sooner. */
 	font-weight    : 800;
 	letter-spacing : -0.03em;
 
@@ -267,7 +267,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Primary Navigation Nav. Why: On a phone the links move into the drawer. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Primary Navigation Nav. Why: On a phone or tablet the links move into the drawer. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.priNavNav { /* What: Hidden Primary Navigation Nav. Why: The drawer holds the links instead. How: This hides the row. */
@@ -393,7 +393,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Bar Hire Anchor. Why: On a phone the button moves into the drawer. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Bar Hire Anchor. Why: On a phone or tablet the button moves into the drawer. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.barHirAnc { /* What: Hidden Bar Hire Anchor. Why: The drawer holds the button instead. How: This hides it from the bar. */
@@ -455,7 +455,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Menu Toggle Button. Why: The toggle only exists on a phone. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Menu Toggle Button. Why: The toggle only exists on a phone or tablet. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.menTogBut { /* What: Shown Menu Toggle Button. Why: On a phone the links live behind the toggle. How: This shows its column of bars. */
@@ -578,7 +578,7 @@
 
 
 }
-@media ( max-width : 768px ) { /* What: Phone Menu Item Stagger. Why: Only the phone menu's rows arrive in turn. How: This applies at 768px and below. */
+@media ( max-width : 1024px ) { /* What: Phone Menu Item Stagger. Why: Only the phone menu's rows arrive in turn. How: This applies at 1,024px and below, where the full bar runs out of room for a long wordmark and button. */
 
 
 	.menDraDiv[data-mobile-menu-open] .herLabDiv,

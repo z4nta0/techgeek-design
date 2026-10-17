@@ -36,13 +36,14 @@
 
 }
 
-html { /* What: Root Element. Why: The page should scroll smoothly to its anchors and draw text crisply. How: This sets the root size to the 11px base, smooths scrolling, and turns on grayscale antialiasing. */
+html { /* What: Root Element. Why: The page should scroll smoothly to its anchors, clear of the fixed bar, and draw text crisply. How: This sets the root size to the 11px base, smooths scrolling, keeps the bar's height clear at the top of every scroll the browser makes, and turns on grayscale antialiasing. */
 
 
 	-moz-osx-font-smoothing : grayscale;
 	-webkit-font-smoothing  : antialiased;
-	font-size               : 68.75%; /* What: Root Font Size. Why: 1rem has to be the 11px base, scaled with the visitor's own setting. How: 11 divided by the default 16 is 68.75%. */
+	font-size               : 68.75%;                                              /* What: Root Font Size. Why: 1rem has to be the 11px base, scaled with the visitor's own setting. How: 11 divided by the default 16 is 68.75%. */
 	scroll-behavior         : smooth;
+	scroll-padding-top      : calc( var( --nav-bar-hei ) + var( --spa-ver-bas ) ); /* Navigation Bar Height ~= 78.751px, Spacing Vertical Base ~= 14.572px */ /* What: Bar Clearance. Why: The bar stays fixed over the page, so anything scrolled into view at the top, a link reached by Tab or a section opened by its address, would sit hidden under it, which WCAG's focus-not-obscured rule forbids. How: This reserves the bar's height plus a base spacing step at the top of every scroll the browser makes on its own. */
 
 
 }

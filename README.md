@@ -28,8 +28,9 @@ import 'techgeek-design/styles/base.css';
 ```
 
 A site overrides the defaults it needs in its own stylesheet, loaded after
-the package's: the layout values always, and the color and font roles where
-it differs. The scales are never overridden.
+the package's: the layout values always (the wordmark size only when its
+domain ending needs the wordmark to shrink sooner on narrow phones), and the
+color and font roles where it differs. The scales are never overridden.
 
 The bar and footer take the site's own details as props:
 

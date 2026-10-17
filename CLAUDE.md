@@ -14,12 +14,15 @@ dependency (`github:z4nta0/techgeek-design#<tag>`), holding:
   - the scales (core design numbers, rhythm, type, spacing, durations,
     easing, radii, borders, and shadows), shared and never overridden;
   - the color and font roles, shared defaults a site may override;
-  - the layout values (the content cap, side padding, hero gap, and bar
-    height), defaults each site overrides;
+  - the layout values (the bar's wordmark size, the content cap, side
+    padding, hero gap, and bar height), defaults each site overrides, the
+    wordmark size only when a long domain ending needs it;
   - the breakpoints, which can't be custom properties, listed as
     commented-out tokens in a region of their own, each with its value and
-    what it switches. Every site keeps the same ones, since the bar and
-    footer switch at 768px.
+    what it switches. Every site keeps the same ones, since the bar switches
+    to its menu at 1,024px (raised from 768px on 2026-10-17, when
+    TechGeek.support's and TechGeek.cards' bars ran out of room on tablets)
+    and the footer stacks at 768px.
 - **Fonts and base styles**: the self-hosted fonts' `@font-face` rules
   (`src/styles/fonts.css`), and the base element styles and shared keyframes
   (`src/styles/base.css`).

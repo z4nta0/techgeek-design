@@ -36,15 +36,70 @@ import type { PagLinTyp     } from './link-types.ts'; // What: Page Link Type. W
  * wordmark's ending, the links, the button, the email, the tagline, and the
  * label) as props. The bar takes its scrolled style once the page moves, and
  * the drawer closes when the page changes, the scrim is tapped, Escape is
- * pressed, or the screen widens past the phone layout.
+ * pressed, the screen widens past the phone layout, or any of its links is
+ * clicked. A skip link leads it, the page's first stop, which jumps a keyboard
+ * user past the bar to the page's main element.
  *
  * Sections:
+ *  - Helpers
  *  - Components
  *  - Exports
  *
  * @author z4nta0 <https://github.com/z4nta0>
  *
 */
+
+
+
+// #region Helpers
+
+// #region modCliFun
+
+/**
+ * modCliFun = Modified Click Function
+ *
+ * @summary
+ * Whether a click on the skip link should be left to the browser: one made
+ * with a modifier key held (Ctrl or Cmd to open a new tab, Shift for a new
+ * window, Alt to download) or with any button but the main one. The skip
+ * link's handler returns early when this is true, so the link's own address
+ * opens the browser's own way.
+ *
+ * @author z4nta0 <https://github.com/z4nta0>
+ *
+ * @param cliEveObj - Click Event Object: The skip link's click event.
+ *
+ * @returns Whether the browser should handle the click itself.
+ * @see {@link modCliBoo}
+ *
+ * @example
+ * ```ts
+ * modCliFun(cliEveObj) // => false for a plain click
+ * ```
+ *
+*/
+
+function modCliFun ( cliEveObj : React.MouseEvent< HTMLAnchorElement > ) : boolean {
+
+
+	const altKeyBoo = cliEveObj.altKey;       // What: Alt Key Boolean. Why: An Alt click is one the browser handles its own way. How: This reads whether Alt was held.
+	const conKeyBoo = cliEveObj.ctrlKey;      // What: Control Key Boolean. Why: Ctrl-click opens a new tab elsewhere. How: This reads whether Ctrl was held.
+	const metKeyBoo = cliEveObj.metaKey;      // What: Meta Key Boolean. Why: Cmd-click opens a new tab on a Mac. How: This reads whether Cmd was held.
+	const othButBoo = cliEveObj.button !== 0; // What: Other Button Boolean. Why: A middle click opens a new tab. How: This checks the click wasn't made with the main button.
+	const shiKeyBoo = cliEveObj.shiftKey;     // What: Shift Key Boolean. Why: Shift-click opens a new window. How: This reads whether Shift was held.
+
+	const modCliBoo = altKeyBoo || conKeyBoo || metKeyBoo || othButBoo || shiKeyBoo; // What: Modified Click Boolean. Why: Any one of these means the visitor asked the browser to open the link its own way. How: This combines them.
+
+
+
+	return modCliBoo; // What: Modified Click Return. Why: The link's handler decides from this whether to step aside. How: This hands back the combined answer.
+
+
+}
+
+// #endregion modCliFun
+
+// #endregion Helpers
 
 
 
@@ -58,13 +113,18 @@ type NbcProTyp = { avaLabStr? : string, ctaLinObj : PagLinTyp, emaAdrStr : strin
  * NavBarCom = Navigation Bar Component
  *
  * @summary
- * Renders the scrim and the bar with its phone drawer. It tracks whether the
+ * Renders the skip link, the scrim, and the bar with its phone drawer. The
+ * skip link comes first, waiting above the screen until it's focused, and its
+ * plain click focuses the page's main element without putting #main in the
+ * address. It tracks whether the
  * page has scrolled past 24px, switching the bar to its scrolled style, and
  * whether the drawer is open, which the toggle flips and any change of page
  * resets. While the drawer is open the rest of the page is inert, so keyboard
  * and screen reader users stay in the bar; tapping the scrim closes it,
  * Escape closes it and returns focus to the toggle, and a screen widened past
- * the phone layout closes it, since the toggle disappears there. The drawer
+ * the phone layout closes it, since the toggle disappears there, and so does
+ * a click on any of the drawer's links, a middle click included, even one
+ * that opens in a new tab. The drawer
  * holds the availability label when the site gives one, the page links, the
  * call to action, the profile icons and email, and the tagline, each
  * arriving a step after the one above it. Both the bar's and the drawer's
@@ -88,7 +148,7 @@ type NbcProTyp = { avaLabStr? : string, ctaLinObj : PagLinTyp, emaAdrStr : strin
  * @param props.worEndStr - Wordmark Ending String: The domain ending shown
  *                          after TechGeek in the wordmark, such as .dev.
  *
- * @returns The scrim and the bar's header element.
+ * @returns The skip link, the scrim, and the bar's header element.
  *
  * @example
  * ```tsx
@@ -132,6 +192,10 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 	const navBarRef = useRef< HTMLElement >( null );       // What: Navigation Bar Reference. Why: The open menu leaves the bar usable while it makes the rest of the page inert. How: This attaches to the header element.
 	const scrDivRef = useRef< HTMLDivElement >( null );    // What: Scrim Div Reference. Why: The scrim has to stay tappable while the page behind it is inert. How: This attaches to the scrim.
 	const togButRef = useRef< HTMLButtonElement >( null ); // What: Toggle Button Reference. Why: Escape puts focus back on the toggle, and a hidden toggle means the menu no longer applies. How: This attaches to the toggle.
+
+
+	const auxCloFun = ( auxEveObj : React.MouseEvent ) => { if ( auxEveObj.button === 1 ) setMenOpeBoo( false ); }; // What: Auxiliary Close Function. Why: A middle click opens a drawer link in a new tab through the auxclick event, which no click handler sees, and the drawer should still close. How: This clears the open flag when the middle button sent it.
+	const cloMenFun = () => setMenOpeBoo( false );                                                                  // What: Close Menu Function. Why: A click on any drawer link closes the drawer, even one that opens in a new tab and leaves the page as it is. How: This clears the open flag.
 
 
 	useEffect( () => { // What: Menu Close Effect. Why: A link in the drawer changes the page, and the drawer shouldn't stay open over the new one. How: This closes the drawer.
@@ -206,8 +270,28 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 	return (
 
 
-		<>{ /* What: Navigation Fragment. Why: The scrim and the bar render side by side, the scrim first. How: This groups them without adding a wrapper element. */ }
+		<>{ /* What: Navigation Fragment. Why: The skip link, the scrim, and the bar render together, the skip link first so it's the page's first stop, then the scrim. How: This groups them without adding a wrapper element. */ }
 
+
+			<a
+				className={ cssModObj.navSkiAnc }
+
+				href='#main'
+
+				onClick={ ( cliEveObj ) => { // What: Skip Click Handler. Why: The jump should land in the page's content without leaving a hash in the address. How: This leaves a modified click to the browser, and otherwise cancels the default and focuses the main element.
+
+
+					if ( modCliFun( cliEveObj ) ) return; // What: Modified Click Guard. Why: A Ctrl, Cmd, Shift, or Alt click asks the browser to open the link its own way. How: This returns before the default is cancelled.
+
+
+
+					cliEveObj.preventDefault(); // What: Default Prevent Call. Why: The browser's own jump would put #main in the address. How: This cancels it.
+
+					document.getElementById( 'main' )?.focus(); // What: Main Focus Call. Why: Focus has to land past the bar, so the next Tab continues into the content. How: This focuses the page's main element, which also brings it into view.
+
+
+				} }
+			>Skip to main content</a>{ /* What: Navigation Skip Anchor Element. Why: A keyboard user shouldn't have to Tab through every link in the bar to reach the page. How: This is the page's first stop, waiting above the screen until it's focused, when it slides down over the bar's corner, and its click moves focus to the main element, which each site marks with the ID `main`. */ }
 
 			<div
 				ref={ scrDivRef }
@@ -392,6 +476,9 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 								style={ { '--men-ite-ind' : linIndNum + 1 } as CSSProperties } // What: Menu Item Index. Why: Each link arrives a step after the one above it. How: This hands the link its place after the label. // What: Type Assertion Note. Why: React's style type doesn't list custom properties. How: The stylesheet reads this one by name.
 
 								to={ pagLinObj.patStr }
+
+								onAuxClick={ auxCloFun }
+								onClick={ cloMenFun }
 							>{ pagLinObj.labStr }</NavLink> // What: Drawer Page Navigation Link. Why: Each page has its own link in the drawer. How: This routes to the row's path, labelled with its name, and NavLink sets aria-current on the one whose route is showing, which its module styles.
 
 
@@ -408,7 +495,10 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 						style={ { '--men-ite-ind' : pagLinArr.length + 1 } as CSSProperties } // What: Menu Item Index. Why: The button arrives after the last link. How: This hands it the next place. // What: Type Assertion Note. Why: React's style type doesn't list custom properties. How: The stylesheet reads this one by name.
 
 						to={ ctaLinObj.patStr }
-					>{ ctaLinObj.labStr }</Link>{ /* What: Drawer Call-To-Action Link. Why: The drawer repeats the bar's call to action. How: This routes to the page the site names as a button without reloading the site, and the menu closes as the page changes. */ }
+
+						onAuxClick={ auxCloFun }
+						onClick={ cloMenFun }
+					>{ ctaLinObj.labStr }</Link>{ /* What: Drawer Call-To-Action Link. Why: The drawer repeats the bar's call to action. How: This routes to the page the site names as a button without reloading the site, closing the menu on any click. */ }
 
 
 
@@ -419,7 +509,7 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 					>{ /* What: Menu Contents Div Element. Why: A few links and a button alone leave the phone menu bare, and a visitor may want z4nta0's profiles or the site's email from any page. How: This holds the profiles, the email, and the tagline under the button. */ }
 
 
-						<p className={ cssModObj.menEyePar }>Find me on</p>{ /* What: Menu Eyebrow Paragraph Element. Why: The icons need a word on what they're for. How: This labels them in small capitals. */ }
+						<p className={ cssModObj.menEyePar }>Find me on</p>{ /* What: Menu Eyebrow Paragraph Element. Why: The icons need a word on what they're for. How: This labels them in uppercase. */ }
 
 						<div className={ cssModObj.menSocDiv }>{ /* What: Menu Social Div Element. Why: z4nta0's profiles are one tap away from any page. How: This sets the icons in a row. */ }
 
@@ -433,10 +523,13 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 									className={ cssModObj.menSocAnc }
 
 									href={ proLinObj.urlStr }
-									rel='noreferrer'
+									rel='noopener noreferrer'
 									target='_blank'
 
 									aria-label={ proLinObj.labStr }
+
+									onAuxClick={ auxCloFun }
+									onClick={ cloMenFun }
 								>{ /* What: Menu Social Anchor Element. Why: Each profile should be recognizable at a glance. How: This shows the platform's mark on a tile, named by the platform for screen readers, opening the profile in a new tab. */ }
 
 
@@ -470,6 +563,9 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 							className={ cssModObj.menEmaAnc }
 
 							href={ `mailto:${ emaAdrStr }` }
+
+							onAuxClick={ auxCloFun }
+							onClick={ cloMenFun }
 						>{ emaAdrStr }</a>{ /* What: Menu Email Anchor Element. Why: Email is the quickest way to reach z4nta0 without a form. How: This opens a new message to the site's contact address. */ }
 
 						<p className={ cssModObj.menTagPar }>{ tagLinStr }</p>{ /* What: Menu Tagline Paragraph Element. Why: The menu ends on the site's tagline, as the footer does. How: This shows the tagline the site passes, quiet, in italics. */ }

@@ -5,7 +5,9 @@
  * nav.module.css = Navigation Bar Module
  *
  * @summary
- * Styles for NavBarCom: the translucent, blurred bar fixed to the top of every
+ * Styles for NavBarCom: the skip link, an orange button waiting above the
+ * screen that slides down over the bar's corner once it's focused, and the
+ * translucent, blurred bar fixed to the top of every
  * page, which firms up and casts a shadow once the page has scrolled
  * (data-nav-bar-scrolled). Its row holds the hexagon mark and two-tone
  * wordmark, the page links with an orange underline that grows on hover and
@@ -16,15 +18,75 @@
  * its rows arriving one after another: the availability pill, the links, the
  * button, and the profile tiles, email, and tagline. It turns invisible once
  * it has slid away, so its links leave the Tab order. The row's width and side
- * padding read the site's layout tokens. The scrim sits at layer 3 and the bar
- * at 4, so a site keeps its own layers at 2 or below. Everything that moves
- * holds still under reduced motion.
+ * padding read the site's layout tokens. The scrim sits at layer 3, the bar at
+ * 4, and the skip link at 5, so a site keeps its own layers at 2 or below.
+ * Everything that moves holds still under reduced motion.
  *
  * @author z4nta0 <https://github.com/z4nta0>
  *
 */
 
 
+
+.navSkiAnc { /* What: Navigation Skip Anchor. Why: A keyboard user should be able to jump past the bar, and the link shouldn't show until it's needed. How: This sets it as an orange button in mono capitals, like the bar's call to action, fixed just above the screen's top edge at the page's side gutter, and eases its slide into view and back out, leaving on the accelerating curve, along with its hover color and lift, its press, and its focus ring. */
+
+
+	background      : var( --acc-mai-col );                               /* Accent Main Color = #F26419 */
+	border-radius   : var( --rad-bor-xsm );                               /* Radius Border Extra Small ~= 3.572px */
+	color           : var( --tex-acc-col );                               /* Text Accent Color = #1A1A2E */
+	font-family     : var( --fon-fam-sec );                               /* Font Family Secondary = 'DM Mono', monospace */
+	font-size       : var( --fon-siz-bas );                               /* Font Size Base = 11px */
+	font-weight     : 500;
+	left            : var( --gut-sid-pad );                               /* Gutter Side Padding, about 19.304px - 44.876px */
+	letter-spacing  : calc( var( --cdn-pow-010-rec ) * 1em );             /* Core-Design-Number to the Power of 10 Reciprocal ~= 0.060em */
+	padding         : var( --spa-ver-m01 ) var( --spa-hor-p02 );          /* Spacing Vertical Base Minus 1 = 11px, Spacing Horizontal Base Plus 2 ~= 25.572px */
+	position        : fixed;
+	text-decoration : none;
+	text-transform  : uppercase;
+	top             : var( --spa-ver-m02 );                               /* Spacing Vertical Base Minus 2 ~= 8.304px */
+	transform       : translateY( calc( -100% - var( --spa-ver-m01 ) ) ); /* Spacing Vertical Base Minus 1 = 11px */ /* What: Hidden Offset. Why: The link waits above the screen until it's focused, clear of the edge so no sliver of it shows. How: This raises it by its own height plus more than its top offset. */
+	transition      : background var( --dur-tra-bas ), transform var( --dur-tra-p02 ) var( --mot-acc-eas ), outline-offset var( --dur-tra-p01 ) var( --mot-dec-eas ), outline-width var( --dur-tra-p01 ) var( --mot-dec-eas ); /* Duration Transition Base ~= 157.8ms, Duration Transition Base Plus 2 ~= 277.0ms, Motion Accelerate Easing = cubic-bezier( .4, 0, 1, 1 ), Duration Transition Base Plus 1 ~= 209.1ms, Motion Decelerate Easing = cubic-bezier( .2, .7, .3, 1 ) */
+	z-index         : 5;                                                  /* What: Skip Link Layer. Why: The focused link has to show above the bar, at 4, and the scrim, at 3. How: This sets it one layer above the bar. */
+
+
+}
+.navSkiAnc:focus { /* What: Focused Navigation Skip Anchor. Why: The link has to come into view however focus reaches it. How: This slides it down over the bar's corner on the decelerating curve, still easing its hover color and lift, its press, and its focus ring, on :focus rather than :focus-visible so a script's focus shows it too. */
+
+
+	transform  : translateY( 0 );
+	transition : background var( --dur-tra-bas ), transform var( --dur-tra-p02 ) var( --mot-dec-eas ), outline-offset var( --dur-tra-p01 ) var( --mot-dec-eas ), outline-width var( --dur-tra-p01 ) var( --mot-dec-eas ); /* Duration Transition Base ~= 157.8ms, Duration Transition Base Plus 2 ~= 277.0ms, Motion Decelerate Easing = cubic-bezier( .2, .7, .3, 1 ), Duration Transition Base Plus 1 ~= 209.1ms */
+
+
+}
+.navSkiAnc:hover { /* What: Hovered Navigation Skip Anchor. Why: A button should respond to the pointer. How: This darkens its orange and lifts it 1px, like the bar's call to action. */
+
+
+	background : var( --acc-hov-col ); /* Accent Hover Color ~= #e45700 */
+	transform  : translateY( -1px );
+
+
+}
+.navSkiAnc:active { /* What: Pressed Navigation Skip Anchor. Why: A press should register before focus moves. How: This presses the button in slightly, which also undoes its hover lift. */
+
+
+	transform : scale( 0.97 ); /* What: Press Scale. Why: A press should register before anything else happens. How: This shrinks the control by 3%, a literal since no scale step lands within 10%. */
+
+
+}
+@media ( prefers-reduced-motion : reduce ) { /* What: Reduced Motion Navigation Skip Anchor. Why: Someone who asked for less motion shouldn't see the link slide. How: This applies only when the reduced-motion preference is set. */
+
+
+	.navSkiAnc,
+	.navSkiAnc:focus { /* What: Motionless Navigation Skip Anchor. Why: The link should simply appear, and its hover, press, and focus changes should switch on at once. How: This turns the transition off on both the hidden and the focused rule, since the focused rule outranks the base. */
+
+
+		transition : none;
+
+
+	}
+
+
+}
 
 .navScrDiv { /* What: Navigation Scrim Div. Why: The open phone menu should stand apart from the page, and a tap anywhere on the page should close it. How: This covers the screen below the bar in the scrim color, leaving the translucent bar undimmed, hidden until the menu opens, fading out as it closes and only then leaving the page clickable. */
 
@@ -693,6 +755,7 @@
 }
 
 /* #endregion herLabDiv */
+
 
 
 /* #region menLinNav */

@@ -180,7 +180,7 @@ function SitFooCom ( { pagLinArr, sisLinArr, tagLinStr, worEndStr } : SfcProTyp 
 								className={ cssModObj.fooIcoAnc }
 
 								href={ proLinObj.urlStr }
-								rel='noreferrer'
+								rel='noopener noreferrer'
 								target='_blank'
 
 								aria-label={ proLinObj.labStr }

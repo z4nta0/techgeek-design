@@ -376,9 +376,10 @@
 	 * The layout values are defaults each site sets for itself in its own
 	 * stylesheet, loaded after this one: the bar's wordmark size, the content
 	 * cap, the side gutter, the gap below the bar, and the bar's height. The
-	 * defaults here are TechGeek.dev's, and a site keeps one it doesn't need to
-	 * change, as a site with a short domain ending keeps the wordmark size. Each site still builds its values from the shared
-	 * scales, so its layout keeps the family's proportions.
+	 * defaults here are TechGeek.dev's, and a site keeps one it doesn't need
+	 * to change, as a site with a short domain ending keeps the wordmark
+	 * size. Each site still builds its values from the shared scales, so its
+	 * layout keeps the family's proportions.
 	 *
 	 * @author z4nta0 <https://github.com/z4nta0>
 	 *

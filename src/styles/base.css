@@ -8,7 +8,8 @@
  * The TechGeek family's base styles: the reset, the base element styles
  * every site starts from (the page body, headings, paragraphs, links, media,
  * buttons, lists, and the scrollbar), the focus ring every link and button
- * grows in on keyboard focus, and the keyframes several modules play through
+ * grows in on keyboard focus, with none on the main element the skip link
+ * focuses, and the keyframes several modules play through
  * global(). A site imports it after fonts.css and tokens.css, and keeps its
  * own keyframes and element styles in its own stylesheet and modules.
  *
@@ -241,6 +242,14 @@ ul { /* What: Lists. Why: Lists are only used for layout, never bullets. How: Th
 
 	outline        : var( --bor-wid-lar ) solid var( --foc-rin-col ); /* Border Width Large ~= 2.035px, Focus Ring Color ~= #bd3000 */
 	outline-offset : var( --bor-wid-xla );                            /* Border Width Extra Large ~= 3.572px */
+
+
+}
+
+main:focus { /* What: Focused Main. Why: The skip link moves focus to a site's main element, which is where the jump lands rather than a control, so a ring around the whole page would only confuse. How: This removes its outline, outranking the focus visible rule above. */
+
+
+	outline : none;
 
 
 }

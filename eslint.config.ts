@@ -3,9 +3,9 @@
 
 // #region Imports
 
-import react      from 'eslint-plugin-react';       // What: React. Why: An undefined component in a JSX tag should fail lint. How: This registers the plugin behind react/jsx-no-undef.
-import reactHooks from 'eslint-plugin-react-hooks'; // What: React Hooks. Why: Hook calls follow rules plain JS linting can't check. How: Its recommended rules are spread into the .tsx config.
-import tseslint   from 'typescript-eslint';         // What: TypeScript ESLint. Why: ESLint's default parser can't read TypeScript's type annotations. How: Its recommended rules are spread into the config, and its parser is set on both configs below.
+import reaPluObj from 'eslint-plugin-react';       // What: React Plugin Object. Why: An undefined component in a JSX tag should fail lint. How: This registers the plugin behind react/jsx-no-undef.
+import rehPluObj from 'eslint-plugin-react-hooks'; // What: React-Hooks Plugin Object. Why: Hook calls follow rules plain JS linting can't check. How: Its recommended rules are spread into the hooks config.
+import tyeEslObj from 'typescript-eslint';         // What: TypeScript ESLint Object. Why: ESLint's default parser can't read TypeScript's type annotations. How: Its recommended rules are spread into the config, and its parser is set on both configs below.
 
 // #endregion Imports
 
@@ -45,7 +45,7 @@ import tseslint   from 'typescript-eslint';         // What: TypeScript ESLint. 
 const ESL_CON_ARR = [ // What: ESLint Config Array. Why: ESLint reads its flat config as an array of objects, each scoped to the files it lists. How: This holds typescript-eslint's recommended configs and two rule overrides, the src/ undefined-component config, and the hooks config.
 
 
-	...tseslint.configs.recommended, // What: Recommended Configs Spread. Why: typescript-eslint's recommended rules catch TypeScript mistakes the compiler allows, such as an any or an unused variable. How: This spreads its recommended configs in, which apply to every file ESLint lints and switch off the core rules TypeScript already covers.
+	...tyeEslObj.configs.recommended, // What: Recommended Configs Spread. Why: typescript-eslint's recommended rules catch TypeScript mistakes the compiler allows, such as an any or an unused variable. How: This spreads its recommended configs in, which apply to every file ESLint lints and switch off the core rules TypeScript already covers.
 
 	{ // What: Rule Overrides Object. Why: Two recommended rules flag patterns the formatting rules rely on. How: This re-sets both rules with an option that allows those patterns.
 
@@ -66,14 +66,14 @@ const ESL_CON_ARR = [ // What: ESLint Config Array. Why: ESLint reads its flat c
 
 
 		files   : [ 'src/**/*.ts', 'src/**/*.tsx' ],  // What: Files. Why: Only the package's own source is linted by these rules. How: This lists one glob per extension.
-		plugins : { react },                          // What: Plugins. Why: react/jsx-no-undef comes from the React plugin. How: This registers it.
+		plugins : { react : reaPluObj },              // What: Plugins. Why: react/jsx-no-undef comes from the React plugin. How: This registers it.
 		rules   : { 'react/jsx-no-undef' : 'error' }, // What: Rules. Why: An undefined component in a JSX tag is always a bug, and TypeScript reports every other undefined name. How: This makes the JSX rule an error.
 
 		languageOptions : { // What: Language Options. Why: The parser has to know the syntax the source uses. How: This sets the TypeScript parser and modern module syntax with JSX.
 
 
 			ecmaVersion   : 'latest',                          // What: Ecma Version. Why: The source uses current JavaScript syntax. How: This parses the latest version.
-			parser        : tseslint.parser,                   // What: Parser. Why: The source is TypeScript, which ESLint's default parser can't read. How: This sets typescript-eslint's parser.
+			parser        : tyeEslObj.parser,                  // What: Parser. Why: The source is TypeScript, which ESLint's default parser can't read. How: This sets typescript-eslint's parser.
 			parserOptions : { ecmaFeatures : { jsx : true } }, // What: Parser Options. Why: The .tsx files contain JSX. How: This turns on JSX parsing.
 			sourceType    : 'module'                           // What: Source Type. Why: Every source file is an ES module. How: This parses import and export.
 
@@ -83,16 +83,16 @@ const ESL_CON_ARR = [ // What: ESLint Config Array. Why: ESLint reads its flat c
 
 	},
 
-	{ // What: JSX Config Object. Why: Hook calls in components and custom hooks follow rules of their own. How: This adds the React Hooks recommended rules for every .tsx file and the package's own .ts files.
+	{ // What: Hooks Config Object. Why: Hook calls in components and custom hooks follow rules of their own. How: This adds the React Hooks recommended rules for every .tsx file and every .ts file under src/.
 
 
-		files   : [ 'src/**/*.ts', '**/*.tsx' ],         // What: Files. Why: Components live in .tsx files, but a custom hook with no JSX lives in a .ts file (scroll-top.ts and page-description.ts), and its calls need the same checks; the configs and design scripts stay out, as they do in each site, where Playwright's test.use would read as React's use hook. How: This matches every .tsx file and the .ts files under src/.
-		plugins : { react, 'react-hooks' : reactHooks }, // What: Plugins. Why: The hooks rules come from the React Hooks plugin. How: This registers it beside the React plugin.
+		files   : [ '**/*.tsx', 'src/**/*.ts' ],                    // What: Files. Why: Components live in .tsx files, and a custom hook may live in a .ts file under src/, while the config stays out, as each site's tests do, since Playwright's test.use reads as React's use. How: This matches every .tsx file and the .ts files under src/.
+		plugins : { react : reaPluObj, 'react-hooks' : rehPluObj }, // What: Plugins. Why: The hooks rules come from the React Hooks plugin. How: This registers it beside the React plugin.
 
 		languageOptions : { // What: Language Options. Why: These files are TypeScript, the .tsx ones with JSX. How: This sets the TypeScript parser and turns on JSX parsing, which the parser applies only to .tsx files.
 
 
-			parser        : tseslint.parser,                  // What: Parser. Why: ESLint's default parser can't read TypeScript. How: This sets typescript-eslint's parser.
+			parser        : tyeEslObj.parser,                 // What: Parser. Why: ESLint's default parser can't read TypeScript. How: This sets typescript-eslint's parser.
 			parserOptions : { ecmaFeatures : { jsx : true } } // What: Parser Options. Why: The .tsx files contain JSX. How: This turns on JSX parsing.
 
 
@@ -101,12 +101,12 @@ const ESL_CON_ARR = [ // What: ESLint Config Array. Why: ESLint reads its flat c
 		rules : { // What: Rules. Why: The plugin's recommended set is the standard hooks checks, but four of its rules only judge whether a component suits the React Compiler, which none of the TechGeek sites use. How: This spreads the recommended set in, then turns those four off.
 
 
-			...reactHooks.configs.recommended.rules, // What: Recommended Rules Spread. Why: These are the standard hooks checks, rules-of-hooks and exhaustive-deps among them. How: This spreads the plugin's recommended set in first, so the overrides below win.
+			...rehPluObj.configs.recommended.rules, // What: Recommended Rules Spread. Why: These are the standard hooks checks, rules-of-hooks and exhaustive-deps among them. How: This spreads the plugin's recommended set in first, so the overrides below win.
 
-			'react-hooks/preserve-manual-memoization' : 'off', // What: Preserve Manual Memoization Rule. Why: It only reports where the compiler would skip a component. How: This turns it off.
-			'react-hooks/purity'                      : 'off', // What: Purity Rule. Why: It flags impure calls the compiler can't place, including ones that only run in event handlers. How: This turns it off.
-			'react-hooks/refs'                        : 'off', // What: Refs Rule. Why: Reading a ref during render only conflicts with the compiler, not with React itself. How: This turns it off.
-			'react-hooks/set-state-in-effect'         : 'off'  // What: Set State In Effect Rule. Why: Syncing or measuring into state inside an effect is a working React pattern that only costs an extra render outside the compiler. How: This turns it off.
+			'react-hooks/preserve-manual-memoization' : 'off', // What: Preserve Manual Memoization Rule. Why: It's one of the four React Compiler readiness rules, which the user-level Linting rule leaves off. How: This turns it off.
+			'react-hooks/purity'                      : 'off', // What: Purity Rule. Why: It's one of the four React Compiler readiness rules, which the user-level Linting rule leaves off. How: This turns it off.
+			'react-hooks/refs'                        : 'off', // What: Refs Rule. Why: It's one of the four React Compiler readiness rules, which the user-level Linting rule leaves off. How: This turns it off.
+			'react-hooks/set-state-in-effect'         : 'off'  // What: Set State In Effect Rule. Why: It's one of the four React Compiler readiness rules, which the user-level Linting rule leaves off. How: This turns it off.
 
 
 		}

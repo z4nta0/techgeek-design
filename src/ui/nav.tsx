@@ -526,11 +526,11 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 									rel='noopener noreferrer'
 									target='_blank'
 
-									aria-label={ proLinObj.labStr }
+									aria-label={ `${ proLinObj.labStr } (opens in a new tab)` } // What: Tab Hint Label. Why: Screen reader users should hear that the tile opens a new tab. How: This names the tile by its platform, then says so.
 
 									onAuxClick={ auxCloFun }
 									onClick={ cloMenFun }
-								>{ /* What: Menu Social Anchor Element. Why: Each profile should be recognizable at a glance. How: This shows the platform's mark on a tile, named by the platform for screen readers, opening the profile in a new tab. */ }
+								>{ /* What: Menu Social Anchor Element. Why: Each profile should be recognizable at a glance. How: This shows the platform's mark on a tile, named by the platform for screen readers, who also hear it opens the profile in a new tab. */ }
 
 
 									<svg

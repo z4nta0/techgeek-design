@@ -183,7 +183,7 @@ function SitFooCom ( { pagLinArr, sisLinArr, tagLinStr, worEndStr } : SfcProTyp 
 								rel='noopener noreferrer'
 								target='_blank'
 
-								aria-label={ proLinObj.labStr }
+								aria-label={ `${ proLinObj.labStr } (opens in a new tab)` } // What: Tab Hint Label. Why: Screen reader users should hear that the icon opens a new tab. How: This names the icon by its platform, then says so.
 							>{ /* What: Footer Icon Anchor Element. Why: A visitor can reach z4nta0's profiles from any page. How: This links to the row's profile in a new tab, named by its aria-label since it shows only an icon. */ }
 
 

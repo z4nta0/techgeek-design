@@ -294,7 +294,7 @@
 
 /* #region fooIcoAnc */
 
-.fooIcoAnc { /* What: Footer Icon Anchor. Why: Each profile link is a bare icon on the dark band. How: This sets it in the muted ink and eases its color, lift, press, and focus. */
+.fooIcoAnc { /* What: Footer Icon Anchor. Why: Each profile link is a bare icon on the dark band. How: This sets it in the muted ink and eases its color, press, and focus. */
 
 
 	color      : var( --tex-inm-col ); /* Text Inverse-Muted Color = #8181a1 */
@@ -303,25 +303,24 @@
 
 
 }
-.fooIcoAnc:hover { /* What: Hovered Footer Icon Anchor. Why: An icon should respond to the pointer. How: This turns it blue and lifts it 2px. */
+.fooIcoAnc:hover { /* What: Hovered Footer Icon Anchor. Why: An icon should respond to the pointer. How: This turns it blue, color only, since the icons sit in a row of links. */
 
 
-	color     : var( --acc-sec-col );                            /* Accent Secondary Color = #7DB9D8 */
-	transform : translateY( calc( var( --spa-ver-m07 ) * -1 ) ); /* Spacing Vertical Base Minus 7 ~= -2.035px */
+	color : var( --acc-sec-col ); /* Accent Secondary Color = #7DB9D8 */
 
 
 }
-.fooIcoAnc:active { /* What: Pressed Footer Icon Anchor. Why: A press should register before anything else happens. How: This presses the icon in slightly, which also undoes its hover lift. */
+.fooIcoAnc:active { /* What: Pressed Footer Icon Anchor. Why: A press should register before anything else happens. How: This presses the icon in slightly. */
 
 
 	transform : scale( 0.97 ); /* What: Press Scale. Why: A press should register before anything else happens. How: This shrinks the control by 3%, a literal since no scale step lands within 10%. */
 
 
 }
-@media ( prefers-reduced-motion : reduce ) { /* What: Reduced Motion Footer Icon Anchor. Why: Someone who asked for less motion shouldn't see the icons glide. How: This applies only when the reduced-motion preference is set. */
+@media ( prefers-reduced-motion : reduce ) { /* What: Reduced Motion Footer Icon Anchor. Why: Someone who asked for less motion shouldn't see the icons ease. How: This applies only when the reduced-motion preference is set. */
 
 
-	.fooIcoAnc { /* What: Motionless Footer Icon Anchor. Why: The hover, press, and focus looks should simply switch, the lift and press still applying at once. How: This turns the transition off. */
+	.fooIcoAnc { /* What: Motionless Footer Icon Anchor. Why: The hover, press, and focus looks should simply switch, the press still applying at once. How: This turns the transition off. */
 
 
 		transition : none;
@@ -336,7 +335,7 @@
 
 
 	height         : calc( var( --ver-rhy-p01 ) * 1rem ); /* Vertical Rhythm Base Plus 1 ~= 19.304px */
-	pointer-events : none;                                /* What: Pass-Through Pointer. Why: WebKit doesn't mark a link pressed when the press lands on an SVG shape inside it, as the-bernie-bears found. How: This lets every press fall through the icon to the link itself. */
+	pointer-events : none;                                /* What: Pass-Through Pointer. Why: A press on the icon should land on its link. How: This lets every press fall through the icon to the link itself. */
 	width          : calc( var( --ver-rhy-p01 ) * 1rem ); /* Vertical Rhythm Base Plus 1 ~= 19.304px */
 
 

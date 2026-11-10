@@ -254,7 +254,7 @@
 
 
 	height         : calc( var( --ver-rhy-p02 ) * 1rem ); /* Vertical Rhythm Base Plus 2 ~= 25.572px */
-	pointer-events : none;                                /* What: Pass-Through Pointer. Why: WebKit doesn't mark a link pressed when the press lands on an SVG shape inside it, as the-bernie-bears found. How: This lets every press fall through the mark to the link itself. */
+	pointer-events : none;                                /* What: Pass-Through Pointer. Why: A press on the mark should land on its link. How: This lets every press fall through the mark to the link itself. */
 	width          : calc( var( --ver-rhy-p02 ) * 1rem ); /* Vertical Rhythm Base Plus 2 ~= 25.572px */
 
 
@@ -975,7 +975,7 @@
 .menSocSvg { /* What: Menu Social SVG. Why: A press anywhere on the tile should register as a press on the link. How: This keeps the icon from catching the pointer. */
 
 
-	pointer-events : none; /* What: Pass-Through Pointer. Why: WebKit doesn't mark a link pressed when the press lands on an SVG shape inside it, as the-bernie-bears found. How: This lets every tap fall through the icon to the link itself. */
+	pointer-events : none; /* What: Pass-Through Pointer. Why: A tap on the icon should land on its link. How: This lets every tap fall through the icon to the link itself. */
 
 
 }

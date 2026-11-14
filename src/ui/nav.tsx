@@ -194,8 +194,8 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 	const togButRef = useRef< HTMLButtonElement >( null ); // What: Toggle Button Reference. Why: Escape puts focus back on the toggle, and a hidden toggle means the menu no longer applies. How: This attaches to the toggle.
 
 
-	const auxCloFun = ( auxEveObj : React.MouseEvent ) => { if ( auxEveObj.button === 1 ) setMenOpeBoo( false ); }; // What: Auxiliary Close Function. Why: A middle click opens a drawer link in a new tab through the auxclick event, which no click handler sees, and the drawer should still close. How: This clears the open flag when the middle button sent it.
-	const cloMenFun = () => setMenOpeBoo( false );                                                                  // What: Close Menu Function. Why: A click on any drawer link closes the drawer, even one that opens in a new tab and leaves the page as it is. How: This clears the open flag.
+	const auxCloFun = ( auxEveObj : React.MouseEvent ) => { if ( auxEveObj.button === 1 ) setMenOpeBoo( false ); }; // What: Auxiliary Close Function. Why: A middle click opens a drawer link or the brand in a new tab through the auxclick event, which no click handler sees, and the drawer should still close. How: This clears the open flag when the middle button sent it.
+	const cloMenFun = () => setMenOpeBoo( false );                                                                  // What: Close Menu Function. Why: A click on any drawer link or the brand closes the drawer, even one that opens in a new tab and leaves the page as it is. How: This clears the open flag.
 
 
 	useEffect( () => { // What: Menu Close Effect. Why: A link in the drawer changes the page, and the drawer shouldn't stay open over the new one. How: This closes the drawer.
@@ -323,7 +323,10 @@ function NavBarCom ( { avaLabStr, ctaLinObj, emaAdrStr, pagLinArr, tagLinStr, wo
 						className={ cssModObj.braLogAnc }
 
 						to='/'
-					>{ /* What: Brand Logo Navigation Link. Why: The mark and wordmark take a visitor home from any page. How: This routes to the root path. */ }
+
+						onAuxClick={ auxCloFun }
+						onClick={ cloMenFun }
+					>{ /* What: Brand Logo Navigation Link. Why: The mark and wordmark take a visitor home from any page, and stay tappable above the open phone menu. How: This routes to the root path and closes the menu on any click, a modified or middle click that opens a new tab included. */ }
 
 
 						<svg

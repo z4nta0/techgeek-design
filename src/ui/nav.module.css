@@ -58,7 +58,7 @@
 
 
 }
-.navSkiAnc:hover { /* What: Hovered Navigation Skip Anchor. Why: A button should respond to the pointer. How: This darkens its orange and lifts it 1px, like the bar's call to action. */
+.navSkiAnc:focus:hover { /* What: Hovered Navigation Skip Anchor. Why: A button should respond to the pointer, but only once it's in view, since a lift on the hidden link would pull it down into sight under a passing pointer. How: This darkens its orange and lifts it 1px, like the bar's call to action, only while it's focused. */
 
 
 	background : var( --acc-hov-col ); /* Accent Hover Color ~= #e45700 */
@@ -66,7 +66,7 @@
 
 
 }
-.navSkiAnc:active { /* What: Pressed Navigation Skip Anchor. Why: A press should register before focus moves. How: This presses the button in slightly, which also undoes its hover lift. */
+.navSkiAnc:focus:active { /* What: Pressed Navigation Skip Anchor. Why: A press should register before focus moves. How: This presses the button in slightly, which also undoes its hover lift, matching the focused hover rule's weight so it still wins. */
 
 
 	transform : scale( 0.97 ); /* What: Press Scale. Why: A press should register before anything else happens. How: This shrinks the control by 3%, a literal since no scale step lands within 10%. */
